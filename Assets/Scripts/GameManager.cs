@@ -15,11 +15,14 @@ public class GameManager : MonoBehaviour
     public Button Mage;
 
     public List<CardClass> Deck ;
+    public List<CardClass> Hand = new List<CardClass>();   
+    
 
     public GameObject PanelClassCanvas;
     void Start()
     {
       PanelClassCanvas.SetActive(true);
+      
     }
 
     // Update is called once per frame
@@ -49,8 +52,8 @@ public class GameManager : MonoBehaviour
             for (int i = 0; i < Deck.Count; i++)
             {
                 int randomIndex = Random.Range(0, Deck.Count); //get a random position per card
-                CardClass temp = Deck[i]; // e run the first card te non shuffled deck
-                Deck[i] = Deck[randomIndex]; // e qet te e para the card with random position
+                CardClass temp = Deck[i]; // takes the first card edhe e qet me ni temp placeholder
+                Deck[i] = Deck[randomIndex]; // 
                 Deck[randomIndex] = temp; // 
             }
             return Deck;
@@ -76,24 +79,41 @@ public class GameManager : MonoBehaviour
     {
         Deck = GetCurrentDeck("Knight");
         Debug.Log("Knight Deck Selected");
-        Destroy(PanelClassCanvas);
+        PanelClassCanvas.SetActive(false);
+        Draw();
+      
     }
 
     public void Button2()
     {
         Deck = GetCurrentDeck("Assassin");
         Debug.Log("Assassin Deck Selected");
-        Destroy(PanelClassCanvas);
+        PanelClassCanvas.SetActive(false);
+        Draw();
+        
     }
 
     public void Button3()
     {
         Deck = GetCurrentDeck("Mage");
         Debug.Log("Mage Deck Selected");
-        Destroy(PanelClassCanvas);
+        PanelClassCanvas.SetActive(false);
+        Draw();
+        
+      
     }
 
 
+    public List<CardClass> Draw()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            Hand.Add(Deck[0]); // 
+            Deck.RemoveAt(0);
+            Debug.Log(Hand[i].GetCardName());
+        }
+        return Hand;
+    }
 }
-       
+      
 
