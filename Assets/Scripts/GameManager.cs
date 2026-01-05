@@ -1,12 +1,14 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Random = UnityEngine.Random; 
+using Random = UnityEngine.Random; // for the shuffling algorithm
 using UnityEngine.UI; 
 using UnityEditor;
+using TMPro;
 using static AssassinDeck;
 using static KnightDeck;    
 using static MageDeck;
+
 public class GameManager : MonoBehaviour
 {
 
@@ -14,15 +16,25 @@ public class GameManager : MonoBehaviour
     public Button Assassin;
     public Button Mage;
 
-    public List<CardClass> Deck ;
-    public List<CardClass> Hand = new List<CardClass>();   
+
+
+    public TextMeshProUGUI DiscardPileText;
+    public TextMeshProUGUI DrawPileText;
+
+    private int discardPileCount = 0;
+    private int drawPileCount = 28;
+
+    public GameObject CARDHANDs;
+
+    public List<CardClass> Deck ;// ni public list ME CARDS(gabimisht named CardClass) qe e ka emrin Deck
+    public List<CardClass> Hand = new List<CardClass>();   // cards in hand
+
     
 
     public GameObject PanelClassCanvas;
     void Start()
     {
       PanelClassCanvas.SetActive(true);
-      
     }
 
     // Update is called once per frame
@@ -77,9 +89,9 @@ public class GameManager : MonoBehaviour
 
     public void Button1()
     {
-        Deck = GetCurrentDeck("Knight");
-        Debug.Log("Knight Deck Selected");
-        PanelClassCanvas.SetActive(false);
+        Deck = GetCurrentDeck("Knight"); // using getters to change the decks based on class selection
+        Debug.Log("Knight Deck Selected"); // only for debugging purposes
+        PanelClassCanvas.SetActive(false); // me e nal the selector canvas
         Draw();
       
     }
@@ -95,13 +107,37 @@ public class GameManager : MonoBehaviour
 
     public void Button3()
     {
-        Deck = GetCurrentDeck("Mage");
+        Deck = GetCurrentDeck("Mage"); 
         Debug.Log("Mage Deck Selected");
         PanelClassCanvas.SetActive(false);
         Draw();
         
       
     }
+
+    public void EndTurn()
+    {
+        Hand.Clear();
+        Draw();
+        discardPileCount += 4; 
+        DiscardPileText.text = discardPileCount.ToString();
+
+        drawPileCount -= 4; 
+        DrawPileText.text = drawPileCount.ToString();
+
+        
+
+      
+
+        
+        for (int i = 0; i < 4; i++) // e kena shti 4 here me check IT WORKED!
+        {
+            CardMovement[] cardMovements = GameObject.FindObjectsOfType<CardMovement>();
+            cardMovements[i].MoveCardDown();
+        }
+
+    }
+
 
 
     public List<CardClass> Draw()
@@ -111,9 +147,16 @@ public class GameManager : MonoBehaviour
             Hand.Add(Deck[0]); // 
             Deck.RemoveAt(0);
             Debug.Log(Hand[i].GetCardName());
-        }
+            Hand[i].CardDetails(i); // per the card qe bohet DRAW me e qit ne CARD DETAILS
+            
+        }     
         return Hand;
     }
+
+    
+
+
+    
 }
       
 
