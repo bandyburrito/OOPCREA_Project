@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using TMPro;
 using static GameManager;
+using UnityEngine.XR;
+using System.CodeDom.Compiler;
 
 public class CardMovement : MonoBehaviour, IPointerClickHandler
 {
@@ -9,31 +11,28 @@ public class CardMovement : MonoBehaviour, IPointerClickHandler
 
     private bool isMovedUp = false;
 
-    public TextMeshProUGUI EnergyText;
-    private int energy = 5;
-    
+    public GameManager gameManager;
+    private int energyCost;
+    private int cardIndex;
+
+   
+
+
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (!isMovedUp)
+        energyCost = gameManager.Hand[cardIndex].GetCardCost();
+        if (energyCost <= gameManager.GetCurrentEnergy())
         {
-
-            if (GetComponent<Card_UI>().cardData.GetCardCost() <= energy)
-            {
-                transform.Translate(0, moveUpAmount, 0);
-                isMovedUp = true;
-                energy -= GetComponent<Card_UI>().cardData.GetCardCost();
-                EnergyText.text = energy.ToString();
-            }
-            else
-            {
-                Debug.Log("Not enough energy to play this card!");
-            }
-
-            
-
-
+            gameManager.SpendEnergy(energyCost);
+            transform.Translate(0, moveUpAmount, 0);
+            isMovedUp = true;
         }
-
+        else
+        {
+            gameManager.EndTurn();
+            gameManager.ResetEnergy();
+            return;
+        }
     }
 
     public void MoveCardDown()
@@ -43,6 +42,11 @@ public class CardMovement : MonoBehaviour, IPointerClickHandler
             transform.Translate(0, -moveUpAmount, 0);
             isMovedUp = false;
         }
+    }
+
+    public void SetCardIndex(int index)
+    {
+        cardIndex = index;
     }
 
     

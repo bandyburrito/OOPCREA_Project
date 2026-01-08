@@ -20,9 +20,11 @@ public class GameManager : MonoBehaviour
 
     public TextMeshProUGUI DiscardPileText;
     public TextMeshProUGUI DrawPileText;
+    public TextMeshProUGUI EnergyText;
 
     private int discardPileCount = 0;
     private int drawPileCount = 28;
+    private int currentEnergy = 5;
 
     public GameObject CARDHANDs;
 
@@ -125,15 +127,12 @@ public class GameManager : MonoBehaviour
         drawPileCount -= 4; 
         DrawPileText.text = drawPileCount.ToString();
 
-        
-
       
-
-        
         for (int i = 0; i < 4; i++) // e kena shti 4 here me check IT WORKED!
         {
             CardMovement[] cardMovements = GameObject.FindObjectsOfType<CardMovement>();
             cardMovements[i].MoveCardDown();
+            ResetEnergy();
         }
 
     }
@@ -151,6 +150,23 @@ public class GameManager : MonoBehaviour
             
         }     
         return Hand;
+    }
+
+    public int GetCurrentEnergy()
+    {
+        return currentEnergy;
+    }
+
+    public void SpendEnergy(int amount)
+    {
+        currentEnergy -= amount;
+        EnergyText.text = currentEnergy.ToString();
+    }
+
+    public void ResetEnergy()
+    {
+        currentEnergy = 5;
+        EnergyText.text = currentEnergy.ToString();
     }
 
     

@@ -399,7 +399,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   moveUpAmount: 3
-  EnergyText: {fileID: 0}
+  EnergyText: {fileID: 3821426387734728711, guid: 0a5b704a9535c034bab5a813988bab92, type: 3}
+  gameManager: {fileID: 3759378030832809500, guid: 5c9cd7c94bcce454e96ea003f7bb0988, type: 3}
 --- !u!61 &3634756374289516759
 BoxCollider2D:
   m_ObjectHideFlags: 0
