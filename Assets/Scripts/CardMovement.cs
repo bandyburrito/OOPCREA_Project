@@ -14,6 +14,7 @@ public class CardMovement : MonoBehaviour, IPointerClickHandler
     public GameManager gameManager;
     private int energyCost;
     private int cardIndex;
+    private CardPlay cardPlayed;
 
    
 
@@ -26,14 +27,37 @@ public class CardMovement : MonoBehaviour, IPointerClickHandler
             gameManager.SpendEnergy(energyCost);
             transform.Translate(0, moveUpAmount, 0);
             isMovedUp = true;
-        }
+
+
+            if (gameManager.Hand[cardIndex].GetCardType() == CardType.Attack)
+            {
+                cardPlayed = new AttackCardPlay(gameManager.Hand[cardIndex].GetAttackValue()); // HAD TO MAKE NEW CONSTRUCOR FOR THIS TO KNOW WTF CARD.PLAY IS :DDDDDDDDDDD
+                cardPlayed.Play();
+            }
+            else if (gameManager.Hand[cardIndex].GetCardType() == CardType.Defense)
+            {
+               cardPlayed = new ShieldCardPlay(gameManager.Hand[cardIndex].GetDefenseValue());
+                cardPlayed.Play();
+
+                // the only difference without Polymorphism would be to call the shielding and attack functions directly from gamemanager
+ }
+
+         else if (gameManager.Hand[cardIndex].GetCardType() == CardType.Both)
+            {
+                cardPlayed = new AttackCardPlay(gameManager.Hand[cardIndex].GetAttackValue());
+                cardPlayed.Play();
+
+                cardPlayed = new ShieldCardPlay(gameManager.Hand[cardIndex].GetDefenseValue());
+                cardPlayed.Play();
+            }
         else
         {
             gameManager.EndTurn();
             gameManager.ResetEnergy();
             return;
         }
-    }
+        
+    }}
 
     public void MoveCardDown()
     {
@@ -49,6 +73,7 @@ public class CardMovement : MonoBehaviour, IPointerClickHandler
         cardIndex = index;
     }
 
+    
     
 
     
