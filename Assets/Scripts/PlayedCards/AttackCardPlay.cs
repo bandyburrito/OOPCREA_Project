@@ -5,7 +5,7 @@ public class AttackCardPlay : CardPlay
     private int attackvalue;
     
 
-    public AttackCardPlay(int attack)
+    public AttackCardPlay(int attack) // constructor 
     {
         gameManager = FindObjectOfType<GameManager>();
 
