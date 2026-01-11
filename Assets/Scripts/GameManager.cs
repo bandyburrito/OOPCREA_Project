@@ -97,6 +97,7 @@ public class GameManager : MonoBehaviour
         deckPicked = "Knight";
         // Buton 1 ne Class select per the Knight class
         Deck = GetCurrentDeck("Knight"); // using getters to change the decks based on class selection
+        Deck = new List<CardClass>(GetCurrentDeck(deckPicked));
         Debug.Log("Knight Deck Selected"); // only for debugging purposes
         PanelClassCanvas.SetActive(false); // me e nal the selector canvas
         Draw();
@@ -108,6 +109,7 @@ public class GameManager : MonoBehaviour
         deckPicked = "Assassin";
         // Buton 2 ne Class select per the Assassin class
         Deck = GetCurrentDeck("Assassin");
+        Deck = new List<CardClass>(GetCurrentDeck(deckPicked));
         Debug.Log("Assassin Deck Selected");
         PanelClassCanvas.SetActive(false);
         Draw();
@@ -118,6 +120,7 @@ public class GameManager : MonoBehaviour
         deckPicked = "Mage";
         // Buton 3 ne Class select per the Mage class
         Deck = GetCurrentDeck("Mage"); 
+        Deck = new List<CardClass>(GetCurrentDeck(deckPicked));
         Debug.Log("Mage Deck Selected");
         PanelClassCanvas.SetActive(false);
         Draw();
@@ -129,7 +132,19 @@ public class GameManager : MonoBehaviour
     {
 
         
-        Hand.Clear(); // e merr listen e cards qe jan ne dor edhe i bon clear 
+        Hand.Clear(); // e merr listen e cards qe jan ne dor edhe i bon clear
+        
+        // Check if reshuffle is needed BEFORE drawing
+        if (drawPileCount <= 0) // nese draw pile count osht 0 ose me pak
+        {
+            drawPileCount = 56; // e reset draw pile count
+            discardPileCount = 0; // e reset discard pile count
+            Deck = new List<CardClass>(GetCurrentDeck(deckPicked)); // me i rishuffle deckat
+            Debug.Log("Deck reshuffled. Deck count: " + Deck.Count.ToString());
+            DrawPileText.text = drawPileCount.ToString(); // update UI
+            DiscardPileText.text = discardPileCount.ToString(); // update UI
+        }
+        
         Draw(); // e thirr funksionin draw per me i bo draw 4 cards te reja
         discardPileCount += 4; //e ndrron ten e discard pile tu i shtu edhe 4 cards
         DiscardPileText.text = discardPileCount.ToString(); // update i UI
@@ -145,19 +160,8 @@ public class GameManager : MonoBehaviour
         {
             CardMovement[] cardMovements = GameObject.FindObjectsOfType<CardMovement>();
             cardMovements[i].MoveCardDown();
-            ResetEnergy();
-        }
-
-
-        if (drawPileCount <= 0) // nese draw pile count osht 0 ose me pak
-        {
-            drawPileCount = 56; // e reset draw pile count
-            DrawPileText.text = drawPileCount.ToString(); // update UI
-            discardPileCount = 0; // e reset discard pile count
-            DiscardPileText.text = discardPileCount.ToString(); // update UI
-
-            Deck = GetCurrentDeck(deckPicked); // me i rishuffle deckat
-            Debug.Log(Deck.Count.ToString());
+            resetEnergyDelegate  = ResetEnergy;
+            resetEnergyDelegate();
         }
     }
 
@@ -187,11 +191,7 @@ public class GameManager : MonoBehaviour
         EnergyText.text = currentEnergy.ToString();
     }
 
-    public void ResetEnergy()
-    {
-        currentEnergy = 5;
-        EnergyText.text = currentEnergy.ToString();
-    }
+
 
     public void ShieldingDone(int shieldBonus)
     {
@@ -199,6 +199,14 @@ public class GameManager : MonoBehaviour
         shieldAmountText.text = shieldAmount.ToString();
     } 
 
+    public delegate void ResetEnergyDelegate();
+    ResetEnergyDelegate resetEnergyDelegate;
+
+    public void ResetEnergy()
+    {
+        currentEnergy = 5;
+        EnergyText.text = currentEnergy.ToString();
+    }
   
 
     
