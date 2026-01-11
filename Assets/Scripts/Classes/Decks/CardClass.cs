@@ -79,8 +79,7 @@ public class CardClass {
     public void CardDetails(int index)
     {
         
-        Card_UI[] cardUIs = GameObject.FindObjectsOfType<Card_UI>(); 
-    // kur thirret funksioni e gjen skripten CARD UI
+        Card_UI[] cardUIs = GameObject.FindObjectsOfType<Card_UI>();  // kur thirret funksioni e gjen skripten CARD UI
         cardUIs[index].Init(this, index);
         // E SHTIN FUNKSIONIN NE CARD UI ME INIZIALIZU YAYYYYYYY throug "THIS" qe esht OBJEKTI SPECIFIK 
     }

@@ -4,6 +4,7 @@ using TMPro;
 using static GameManager;
 using UnityEngine.XR;
 using System.CodeDom.Compiler;
+using System.Linq.Expressions;
 
 public class CardMovement : MonoBehaviour, IPointerClickHandler
 {
@@ -33,6 +34,7 @@ public class CardMovement : MonoBehaviour, IPointerClickHandler
             {
                 cardPlayed = new AttackCardPlay(gameManager.Hand[cardIndex].GetAttackValue()); // HAD TO MAKE NEW CONSTRUCOR FOR THIS TO KNOW WTF CARD.PLAY IS :DDDDDDDDDDD
                 cardPlayed.Play();
+                Debug.Log("Played an Attack Card");
             }
             else if (gameManager.Hand[cardIndex].GetCardType() == CardType.Defense)
             {
