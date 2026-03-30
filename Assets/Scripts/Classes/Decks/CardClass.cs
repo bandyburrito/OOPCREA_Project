@@ -36,11 +36,7 @@ public class CardClass {
         this.description = desc;
         this.cardType = type;
         this.attackValue = attack;
-        this.defenseValue = defense;
-
-
-
-        
+        this.defenseValue = defense; 
     }
 
     public String GetCardName()

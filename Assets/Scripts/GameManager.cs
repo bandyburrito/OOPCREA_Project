@@ -124,8 +124,6 @@ public class GameManager : MonoBehaviour
         Debug.Log("Mage Deck Selected");
         PanelClassCanvas.SetActive(false);
         Draw();
-        
-      
     }
 
     public void EndTurn()// funksioni me end the turn.
@@ -207,12 +205,13 @@ public class GameManager : MonoBehaviour
         currentEnergy = 5;
         EnergyText.text = currentEnergy.ToString();
     }
+
   
 
-    
 
 
-    
+
+
 }
 
 

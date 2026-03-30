@@ -32,7 +32,7 @@ public class CardMovement : MonoBehaviour, IPointerClickHandler
 
             if (gameManager.Hand[cardIndex].GetCardType() == CardType.Attack)
             {
-                cardPlayed = new AttackCardPlay(gameManager.Hand[cardIndex].GetAttackValue()); // HAD TO MAKE NEW CONSTRUCOR FOR THIS TO KNOW WTF CARD.PLAY IS :DDDDDDDDDDD
+                cardPlayed = new AttackCardPlay(gameManager.Hand[cardIndex].GetAttackValue()); // HAD TO MAKE NEW CONSTRUCOR FOR THIS TOO KNOW WTF CARD.PLAY IS :DDDDDDDDDDD
                 cardPlayed.Play();
                 Debug.Log("Played an Attack Card");
             }
